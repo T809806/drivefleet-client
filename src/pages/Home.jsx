@@ -1,71 +1,133 @@
-import Navbar from "../components/Navbar";
+import { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import Loader from "../components/Loader"; // ✅ ADD THIS
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const [cars, setCars] = useState([]);
+  const [loading, setLoading] = useState(true); // ✅ ADD THIS
+
+  // 🚗 Fetch cars from backend
+  useEffect(() => {
+    setLoading(true); // ✅ START LOADING
+
+    fetch("http://localhost:5000/cars")
+      .then((res) => res.json())
+      .then((data) => {
+        setCars(data);
+        setLoading(false); // ✅ STOP LOADING
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false); // ❗ even error hole off
+      });
+  }, []);
+
+  // ✅ LOADING CHECK (IMPORTANT)
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
-    <div className="bg-[#050816] min-h-screen text-white overflow-hidden">
+    <div className="bg-[#050816] text-white min-h-screen">
 
-      <Navbar />
+      {/* 🚀 HERO SECTION */}
+      <div className="relative min-h-[70vh] flex flex-col justify-center items-center text-center px-6 overflow-hidden">
 
-      {/* Hero Section */}
-      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center px-6 py-16 md:py-24">
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-20"
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1600')"
+          }}
+        ></div>
 
-        {/* Left Side */}
-        <div>
+        <div className="absolute inset-0 bg-[#050816]/80"></div>
 
-          <p className="text-cyan-400 font-semibold tracking-widest mb-5">
-            PREMIUM CAR RENTAL
-          </p>
-
-          <h1 className="text-5xl md:text-7xl font-extrabold leading-tight">
-
-            Drive Your <br />
-
-            <span className="text-cyan-400">
-              Dream Car
-            </span>
-
+        <div className="relative z-10">
+          <h1 className="text-4xl md:text-5xl font-bold">
+            Rent Your Dream <span className="text-cyan-400">Car</span>
           </h1>
 
-          <p className="mt-8 text-gray-400 text-lg leading-8 max-w-xl">
-
-            Explore luxury, sports, SUV and family cars
-            at affordable daily rental prices with premium service.
-
+          <p className="text-gray-300 mt-4 max-w-2xl">
+            Explore luxury, SUV and economy cars easily.
           </p>
 
-          {/* Buttons */}
-          <div className="flex flex-col sm:flex-row gap-5 mt-10">
+          <button
+            onClick={() => navigate("/cars")}
+            className="mt-6 bg-cyan-400 hover:bg-cyan-300 text-black px-6 py-3 rounded-full font-semibold"
+          >
+            Explore Cars
+          </button>
+        </div>
+      </div>
 
-            <button className="bg-cyan-400 hover:bg-cyan-300 text-black font-bold px-8 py-4 rounded-full duration-300 shadow-lg shadow-cyan-500/20">
+      {/* 🚗 AVAILABLE CARS */}
+      <div className="px-6 py-20 max-w-7xl mx-auto">
 
-              Explore Cars
+        <h2 className="text-3xl font-bold text-center mb-10">
+          Available <span className="text-cyan-400">Cars</span>
+        </h2>
 
-            </button>
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
 
-            <button className="border border-gray-700 hover:border-cyan-400 hover:text-cyan-400 px-8 py-4 rounded-full duration-300">
+          {cars.slice(0, 6).map((car) => (
+            <div
+              key={car._id}
+              className="bg-[#0B0F19] border border-white/10 rounded-2xl p-5"
+            >
 
-              Learn More
+              <img
+                src={car.img}
+                alt={car.name}
+                className="w-full h-40 object-cover rounded-xl mb-4"
+              />
 
-            </button>
+              <h3 className="text-xl font-semibold">{car.name}</h3>
 
+              <p className="text-gray-400 mt-1">
+                {car.type} • {car.seats} Seats
+              </p>
+
+              <p className="text-cyan-400 font-bold mt-2">
+                ${car.price} / day
+              </p>
+
+              <Link to={`/cars/${car._id}`}>
+                <button className="mt-3 w-full bg-cyan-400 hover:bg-cyan-300 text-black py-2 rounded-full font-semibold">
+                  View Details
+                </button>
+              </Link>
+
+            </div>
+          ))}
+
+        </div>
+      </div>
+
+      {/* ⭐ WHY CHOOSE US */}
+      <div className="max-w-7xl mx-auto px-6 py-20">
+
+        <h2 className="text-3xl font-bold text-center mb-12">
+          Why Choose <span className="text-cyan-400">DriveFleet</span>?
+        </h2>
+
+        <div className="grid md:grid-cols-3 gap-8">
+
+          <div className="bg-[#0B0F19] p-6 rounded-2xl text-center">
+            Fast Booking
+          </div>
+
+          <div className="bg-[#0B0F19] p-6 rounded-2xl text-center">
+            Affordable Price
+          </div>
+
+          <div className="bg-[#0B0F19] p-6 rounded-2xl text-center">
+            Trusted Service
           </div>
 
         </div>
-
-        {/* Right Side */}
-        <div className="relative flex justify-center items-center">
-
-          {/* Glow Effect */}
-          <div className="absolute w-72 h-72 bg-cyan-500/20 blur-3xl rounded-full"></div>
-
-          <img
-            src="https://images.unsplash.com/photo-1695444784307-32e5e8e19aa3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjA2fHxjYXJzJTIwcGljc3xlbnwwfHwwfHx8MA%3D%3D"
-            alt="car"
-            className="relative w-full max-w-md rounded-3xl shadow-2xl border border-white/10"
-          />
-
-        </div>
-
       </div>
 
     </div>
