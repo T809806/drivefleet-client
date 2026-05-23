@@ -130,9 +130,7 @@ useEffect(() => {
 
  <Link to={`/cars/${car._id}`}>
 
-   <button className="mt-4 w-full bg-cyan-400 hover:bg-cyan-300 text-black py-2 rounded-full font-semibold">
-      View Details
-   </button>
+  <button className="mt-4 w-full bg-cyan-400 hover:bg-cyan-300 text-black py-2 rounded-full font-semibold"> View Details </button>
 
  </Link>
 
