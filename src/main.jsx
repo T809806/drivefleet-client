@@ -4,6 +4,7 @@ import "./index.css";
 import UpdateCar from "./pages/UpdateCar";
 
 import {
+
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
@@ -26,92 +27,89 @@ import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 
 const router = createBrowserRouter([
+
   {
     path: "/",
     element: <MainLayout />,
 
     children: [
 
-      // HOME
-      {
-        path: "/",
-        element: <Home />
-      },
+ {
+   path: "/",
+   element: <Home />
 
-      // EXPLORE CARS
-      {
-        path: "/cars",
-        element: <ExploreCars />
-      },
+},
 
-      // SINGLE CAR DETAILS
-      {
-        path: "/cars/:id",
-        element: <CarDetails />
-      },
+{
+   path: "/cars",
+   element: <ExploreCars />
+ },
 
-      // 🔒 PRIVATE ROUTES
+{
+ path: "/cars/:id",
+ element: <CarDetails />
+ },
 
-      {
-        path: "/add-car",
-        element: (
-          <PrivateRoute>
-            <AddCar />
-          </PrivateRoute>
-        )
-      },
+  {
+   path: "/add-car",
+   element: (
+   <PrivateRoute>
+   <AddCar />
+   </PrivateRoute>
+   )
+},
 
-      {
-        path: "/my-bookings",
-        element: (
-          <PrivateRoute>
-            <MyBookings />
-          </PrivateRoute>
-        )
-      },
+ {
+  path: "/my-bookings",
+  element: (
+  <PrivateRoute>
+   <MyBookings />
+   </PrivateRoute>
+ )
+ },
 
-      {
-        path: "/my-cars",
-        element: (
-          <PrivateRoute>
-            <MyAddedCars />
-          </PrivateRoute>
-        )
-      },
+ {
+   path: "/my-cars",
+   element: (
+   <PrivateRoute>
+   <MyAddedCars />
+   </PrivateRoute>
 
-      {
+ )
+  },
+
+ {
   path: "/update-car/:id",
   element: (
-    <PrivateRoute>
-      <UpdateCar />
-    </PrivateRoute>
+<PrivateRoute>
+<UpdateCar />
+</PrivateRoute>
+
   )
 },
 
-      // AUTH
+ {
+   path: "/login",
+   element: <Login />
+ },
 
-      {
-        path: "/login",
-        element: <Login />
-      },
+ {
+  path: "/register",
+  element: <Register />
+ },
 
-      {
-        path: "/register",
-        element: <Register />
-      },
-
-      // 404
-      {
-        path: "*",
-        element: <NotFound />
-      }
+ {
+   path: "*",
+   element: <NotFound />
+ }
 
     ],
+
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <AuthProvider>
-    <RouterProvider router={router} />
-  </AuthProvider>
+  ReactDOM.createRoot(document.getElementById("root")).render(
+      <AuthProvider>
+      <RouterProvider router={router} />
+      </AuthProvider>
 );

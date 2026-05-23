@@ -1,22 +1,26 @@
 import { Navigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
-const PrivateRoute = ({ children }) => {
-
+  const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
-
   const location = useLocation();
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex justify-center items-center text-white bg-[#050816]">
-        Loading...
-      </div>
+if (loading) {
+
+  return (
+
+  <div className="min-h-screen flex justify-center items-center text-white bg-[#050816]">
+    Loading...
+  </div>
+
     );
+
   }
 
   if (!user) {
+
     return <Navigate to="/login" state={location.pathname} />;
+    
   }
 
   return children;

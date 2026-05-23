@@ -19,24 +19,29 @@ export const AuthContext = createContext();
      const [loading, setLoading] = useState(true);
 
  useEffect(() => {
-     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
     if (currentUser?.email) {
 
  try {
+
    const res = await fetch("http://localhost:5000/me", {
    credentials: "include",
-    });
 
-   const data = await res.json();
-     if (data?.user) {
-     setUser(currentUser); 
-     } else {
-     setUser(null);
+});
 
-  }
+ const data = await res.json();
+  if (data?.user) {
 
-   } catch (err) {
+  setUser(currentUser); 
+ } else {
+setUser(null);
+
+}
+
+} catch (err) {
     setUser(null);
+    
   }
 
  } else {
