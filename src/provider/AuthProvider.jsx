@@ -13,7 +13,6 @@ import {
 
 import app from "../firebase/firebase.config";
 
-// ✅ CONTEXT
 export const AuthContext = createContext();
 
 const auth = getAuth(app);
@@ -21,22 +20,41 @@ const auth = getAuth(app);
 const AuthProvider = ({ children }) => {
 
   const [user, setUser] = useState(null);
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
 
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    // 🔵 Firebase auth state
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
 
-      setUser(currentUser);
+      if (currentUser?.email) {
+
+        // 🔥 ALSO CHECK BACKEND JWT SESSION
+        try {
+          const res = await fetch("http://localhost:5000/me", {
+            credentials: "include",
+          });
+
+          const data = await res.json();
+
+          if (data?.user) {
+            setUser(currentUser); // keep firebase user
+          } else {
+            setUser(null);
+          }
+
+        } catch (err) {
+          setUser(null);
+        }
+
+      } else {
+        setUser(null);
+      }
 
       setLoading(false);
-
     });
 
-    return () => {
-      unsubscribe();
-    };
+    return () => unsubscribe();
 
   }, []);
 
@@ -53,7 +71,6 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-// ✅ CUSTOM HOOK
 export const useAuth = () => {
   return useContext(AuthContext);
 };

@@ -4,119 +4,181 @@ import useAuth from "../hooks/useAuth";
 import { logoutUser } from "../firebase/firebase.auth";
 
 const Navbar = () => {
+  const { user } = useAuth();
+  const [open, setOpen] = useState(false);
+  const [dropdown, setDropdown] = useState(false);
 
-   const { user } = useAuth();
-   const [open, setOpen] = useState(false);
-    
-return (
+  const handleLogout = async () => {
+    await logoutUser();
+    setDropdown(false);
+    setOpen(false);
+  };
 
-  <header className="bg-[#0B0F19]/95 backdrop-blur-lg border-b border-white/10 sticky top-0 z-50">
+  return (
+    <header className="bg-[#0B0F19]/95 backdrop-blur-lg border-b border-white/10 sticky top-0 z-50">
 
-       <div className="max-w-7xl mx-auto px-5">
-       <div className="flex items-center justify-between h-20">
+      <div className="max-w-7xl mx-auto px-5">
+        <div className="flex items-center justify-between h-20">
 
-   <Link to="/">
+          {/* LOGO */}
+          <Link to="/" onClick={() => { setOpen(false); setDropdown(false); }}>
+            <h1 className="text-3xl font-extrabold tracking-wide text-white">
+              Drive <span className="text-cyan-400">Fleet</span>
+            </h1>
+          </Link>
 
-     <h1 className="text-3xl font-extrabold tracking-wide text-white"> Drive <span className="text-cyan-400"> Fleet </span> </h1>
+          {/* NAV LINKS */}
+          <nav className="hidden md:flex items-center gap-8">
 
-   </Link>
+            <Link className="text-gray-300 hover:text-cyan-400" to="/">Home</Link>
+            <Link className="text-gray-300 hover:text-cyan-400" to="/cars">Explore Cars</Link>
 
-   <nav className="hidden md:flex items-center gap-8">
+            {user && (
+              <>
+                <Link className="text-gray-300 hover:text-cyan-400" to="/add-car">
+                  Add Car
+                </Link>
 
-    <Link
-     className="text-gray-300 hover:text-cyan-400 duration-300"
-     to="/"
-     > Home </Link>
+                <Link className="text-gray-300 hover:text-cyan-400" to="/my-bookings">
+                  My Bookings
+                </Link>
 
- <Link
-  className="text-gray-300 hover:text-cyan-400 duration-300"
-     to="/cars"
-   > Explore Cars </Link>
+                <Link className="text-gray-300 hover:text-cyan-400" to="/my-cars">
+                  My Added Cars
+                </Link>
+              </>
+            )}
 
- <Link
-    className="text-gray-300 hover:text-cyan-400 duration-300"
-      to="/add-car"
- >  Add Car </Link>
+          </nav>
 
-<Link
-    className="text-gray-300 hover:text-cyan-400 duration-300"
-      to="/my-bookings"
-> My Bookings </Link>
+          {/* AUTH SECTION (DESKTOP) */}
+          <div className="hidden md:flex items-center gap-4 relative">
 
-</nav>
+            {user ? (
+              <>
+                {/* Profile Button */}
+                <button
+                  onClick={() => setDropdown(prev => !prev)}
+                  className="text-cyan-400"
+                >
+                  {user.email}
+                </button>
 
-  {
-         user ? (
-        <div className="hidden md:flex items-center gap-4">
-        <p className="text-sm text-cyan-400">
+                 <button
+    onClick={handleLogout}
+    className="bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded-full"
+  >
+    Logout
+  </button>
 
-{user.email}
 
-</p>
+                {/* Dropdown */}
+                {dropdown && (
+                  <div className="absolute right-0 top-10 bg-[#111827] p-3 rounded shadow-lg flex flex-col gap-2 w-44">
 
-</div>
+                    <Link
+                      to="/add-car"
+                      onClick={() => setDropdown(false)}
+                      className="hover:text-cyan-400"
+                    >
+                      Add Car
+                    </Link>
 
-  ) : (
+                    <Link
+                      to="/my-bookings"
+                      onClick={() => setDropdown(false)}
+                      className="hover:text-cyan-400"
+                    >
+                      My Bookings
+                    </Link>
 
-<div className="hidden md:flex gap-4">
+                    <Link
+                      to="/my-cars"
+                      onClick={() => setDropdown(false)}
+                      className="hover:text-cyan-400"
+                    >
+                      My Added Cars
+                    </Link>
 
-   <Link
-     to="/login"
-     className="bg-cyan-400 hover:bg-cyan-300 text-black font-semibold px-6 py-2 rounded-full duration-300 shadow-lg shadow-cyan-500/20"
- > Login </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="text-red-500 text-left"
+                    >
+                      Logout
+                    </button>
 
-   <Link
-     to="/register"
-     className="border border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black font-semibold px-6 py-2 rounded-full duration-300"
-   > Register </Link>
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="bg-cyan-400 text-black px-6 py-2 rounded-full">
+                  Login
+                </Link>
 
- </div>
+                <Link to="/register" className="border border-cyan-400 text-cyan-400 px-6 py-2 rounded-full">
+                  Register
+                </Link>
+              </>
+            )}
 
-  )
-}
+          </div>
 
-       
- <button onClick={() => setOpen(!open)} className="md:hidden text-white text-3xl">  ☰  </button>
+          {/* MOBILE MENU BUTTON */}
+          <button
+            onClick={() => setOpen(prev => !prev)}
+            className="md:hidden text-white text-3xl"
+          >
+            ☰
+          </button>
 
- </div>
- </div>
+        </div>
+      </div>
 
-      
-{
- open && (
-   <div className="md:hidden bg-[#111827] border-t border-white/10">
-   <div className="flex flex-col p-5 gap-5">
+      {/* MOBILE MENU */}
+      {open && (
+        <div className="md:hidden bg-[#111827] border-t border-white/10">
+          <div className="flex flex-col p-5 gap-5">
 
-   <Link
-      className="text-gray-300 hover:text-cyan-400"
-      to="/"
-      > Home </Link>
+            <Link to="/" onClick={() => setOpen(false)}>Home</Link>
+            <Link to="/cars" onClick={() => setOpen(false)}>Explore Cars</Link>
 
-   <Link
-     className="text-gray-300 hover:text-cyan-400"
-       to="/cars"
-  > Explore Cars </Link>
+            {user && (
+              <>
+                <Link to="/add-car" onClick={() => setOpen(false)}>Add Car</Link>
+                <Link to="/my-bookings" onClick={() => setOpen(false)}>My Bookings</Link>
+                <Link to="/my-cars" onClick={() => setOpen(false)}>My Added Cars</Link>
+              </>
+            )}
 
-   <Link
-      className="text-gray-300 hover:text-cyan-400"
-      to="/add-car"
-   > Add Car </Link>
+            {user ? (
+              <>
+                <p className="text-cyan-400">{user.email}</p>
 
-  <Link
-     className="text-gray-300 hover:text-cyan-400"
-      to="/my-bookings"
-   > My Bookings </Link>
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-500 text-white py-2 rounded-full"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link className="bg-cyan-400 text-black py-2 rounded-full text-center" to="/login">
+                  Login
+                </Link>
 
- <button className="bg-cyan-400 text-black py-2 rounded-full font-semibold"> Login </button>
+                <Link className="border border-cyan-400 text-cyan-400 py-2 rounded-full text-center" to="/register">
+                  Register
+                </Link>
+              </>
+            )}
 
-   </div>
+          </div>
+        </div>
+      )}
 
-   </div>
-
-   )
-}
- </header>
-
+    </header>
   );
 };
 

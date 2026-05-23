@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
+import useAuth from "../hooks/useAuth";
 
 const MyBookings = () => {
 
+  const { user } = useAuth();
   const [bookings, setBookings] = useState([]);
+  
 
   useEffect(() => {
-    fetch("http://localhost:5000/bookings")
+   fetch(`http://localhost:5000/bookings?email=${user.email}`)
       .then(res => res.json())
       .then(data => setBookings(data));
   }, []);

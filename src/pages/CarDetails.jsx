@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 const CarDetails = () => {
   const { id } = useParams();
-
+const { user } = useAuth();
   const [car, setCar] = useState(null);
 
   useEffect(() => {
@@ -27,6 +28,7 @@ const CarDetails = () => {
     price: car.price,
     img: car.img,
     bookingDate: new Date(),
+     userEmail: user.email
   };
 
   fetch("http://localhost:5000/bookings", {
@@ -43,7 +45,7 @@ const CarDetails = () => {
 };
 
   return (
-    <div className="min-h-screen bg-[#050816] text-white px-6 py-10">
+  <div className="min-h-screen bg-[#0B0F19] text-white flex items-start justify-center px-4 pt-6">
 
       <div className="max-w-4xl mx-auto bg-[#0B0F19] rounded-2xl p-6">
 
@@ -75,7 +77,7 @@ const CarDetails = () => {
 
         <button
   onClick={handleBooking}
-  className="mt-8 bg-cyan-400 hover:bg-cyan-300 text-black px-6 py-3 rounded-full font-semibold"
+  className="mt-4 bg-cyan-400 text-black px-6 py-2 rounded-full"
 >
   Book Now
 </button>

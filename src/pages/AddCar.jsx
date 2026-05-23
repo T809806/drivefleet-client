@@ -43,19 +43,21 @@ const AddCar = () => {
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify(car),
-    })
+      credentials: "include", // 🔥 MUST
+  body: JSON.stringify(car),
+})
+      
       .then((res) => res.json())
       .then((data) => {
 
         console.log(data);
 
-        if (data.insertedId) {
-          setSuccess("🚗 Car added successfully!");
-          form.reset();
-        } else {
-          setError("❌ Failed to add car");
-        }
+        if (data.success) {
+  setSuccess("🚗 Car added successfully!");
+  form.reset();
+} else {
+  setError("❌ Failed to add car");
+}
 
         setLoading(false);
       })

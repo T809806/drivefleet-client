@@ -28,10 +28,11 @@ const ExploreCars = () => {
       });
   }, []);
 
-  // 🔍 Search filter
-  const filteredCars = cars.filter((car) =>
-    car.name.toLowerCase().includes(search.toLowerCase())
-  );
+ useEffect(() => {
+  fetch(`http://localhost:5000/cars?search=${search}`)
+    .then((res) => res.json())
+    .then((data) => setCars(data));
+}, [search]);
 
   // 🔵 LOADING STATE
   if (loading) {
@@ -71,24 +72,20 @@ const ExploreCars = () => {
         </p>
       </div>
 
-      {/* 🔍 Search Box */}
-      <div className="flex justify-center mb-10">
-        <input
-          type="text"
-          placeholder="Search cars..."
-          className="px-4 py-2 rounded-l-full text-black w-64 outline-none"
-          onChange={(e) => setSearch(e.target.value)}
-        />
-
-        <button className="bg-cyan-400 px-5 py-2 rounded-r-full text-black font-semibold">
-          Search
-        </button>
-      </div>
+    <div className="mb-8  flex justify-center">
+  <input
+    type="text"
+    placeholder="Search cars..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+    className="w-full md:w-96 px-4 py-3 rounded-xl bg-[#0B0F19] border border-white/10 text-white outline-none"
+  />
+</div>
 
       {/* Cars Grid */}
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
 
-        {filteredCars.map((car) => (
+        {cars.map((car) => (
           <div
             key={car._id}
             className="bg-[#0B0F19] border border-white/10 rounded-2xl p-5 

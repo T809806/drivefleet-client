@@ -2,12 +2,11 @@ import { useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { loginUser, googleLogin } from "../firebase/firebase.auth";
 
-
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-const from = location.state || "/";
+  const from = location.state || "/";
   const [error, setError] = useState("");
 
   const handleLogin = (e) => {
@@ -16,17 +15,55 @@ const from = location.state || "/";
     const email = e.target.email.value;
     const password = e.target.password.value;
 
+    // 🔵 Firebase login
     loginUser(email, password)
       .then(() => {
-        setError("");
-        navigate(from);;
+
+        // 🔐 JWT backend login (FIXED ROUTE)
+        fetch("http://localhost:5000/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ email }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("JWT login success:", data);
+            setError("");
+            navigate(from);
+          })
+          .catch(() => {
+            setError("Server login failed");
+          });
+
       })
-      .catch((err) => setError("Invalid login"));
+      .catch(() => setError("Invalid login"));
   };
 
   const handleGoogle = () => {
     googleLogin()
-      .then(() => navigate(from))
+      .then((result) => {
+
+        // 🔥 real Google email
+        const email = result.user.email;
+
+        // 🔐 FIXED ROUTE HERE ALSO
+        fetch("http://localhost:5000/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ email }),
+        })
+          .then(() => {
+            setError("");
+            navigate(from);
+          })
+          .catch((err) => setError(err.message));
+      })
       .catch((err) => setError(err.message));
   };
 
@@ -39,10 +76,22 @@ const from = location.state || "/";
 
         <form onSubmit={handleLogin} className="space-y-3">
 
-          <input name="email" placeholder="Email" className="w-full p-2 rounded bg-black" />
-          <input name="password" type="password" placeholder="Password" className="w-full p-2 rounded bg-black" />
+          <input
+            name="email"
+            placeholder="Email"
+            className="w-full p-2 rounded bg-black"
+          />
 
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            className="w-full p-2 rounded bg-black"
+          />
+
+          {error && (
+            <p className="text-red-500 text-sm">{error}</p>
+          )}
 
           <button className="w-full bg-cyan-400 text-black py-2 rounded">
             Login
@@ -50,7 +99,7 @@ const from = location.state || "/";
 
         </form>
 
-         <button
+        <button
           onClick={handleGoogle}
           className="w-full mt-3 border border-white/20 py-2 rounded"
         >
@@ -58,11 +107,13 @@ const from = location.state || "/";
         </button>
 
         <p className="text-sm mt-3 text-center">
-          No account? <Link to="/register" className="text-cyan-400">Register</Link>
+          No account?{" "}
+          <Link to="/register" className="text-cyan-400">
+            Register
+          </Link>
         </p>
 
       </div>
-
     </div>
   );
 };

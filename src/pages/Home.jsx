@@ -130,7 +130,50 @@ const Home = () => {
         </div>
       </div>
 
+     {/* 🚗 HOW DRIVEFLEET WORKS SECTION */}
+<div className="max-w-7xl mx-auto px-6 py-20">
+
+  <h2 className="text-3xl font-bold text-center mb-12">
+    How <span className="text-cyan-400">DriveFleet</span> Works
+  </h2>
+
+  <div className="grid md:grid-cols-3 gap-8 text-center">
+
+    {/* Step 1 */}
+    <div className="bg-[#0B0F19] border border-white/10 p-6 rounded-2xl">
+      <div className="text-5xl font-bold text-cyan-400">1</div>
+      <h3 className="text-xl font-semibold mt-4">Search Car</h3>
+      <p className="text-gray-400 mt-3">
+        Explore available cars using search and filters.
+      </p>
     </div>
+
+    {/* Step 2 */}
+    <div className="bg-[#0B0F19] border border-white/10 p-6 rounded-2xl">
+      <div className="text-5xl font-bold text-cyan-400">2</div>
+      <h3 className="text-xl font-semibold mt-4">Book Instantly</h3>
+      <p className="text-gray-400 mt-3">
+        Select your car and confirm booking in seconds.
+      </p>
+    </div>
+
+    {/* Step 3 */}
+    <div className="bg-[#0B0F19] border border-white/10 p-6 rounded-2xl">
+      <div className="text-5xl font-bold text-cyan-400">3</div>
+      <h3 className="text-xl font-semibold mt-4">Enjoy Ride</h3>
+      <p className="text-gray-400 mt-3">
+        Pick your car and enjoy a smooth journey.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+ </div>
+
+
+
+    
   );
 };
 
