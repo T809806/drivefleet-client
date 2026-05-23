@@ -17,7 +17,7 @@ import { loginUser, googleLogin } from "../firebase/firebase.auth";
  loginUser(email, password)
    .then(() => {
 
- fetch("http://localhost:5000/login", {
+fetch(`${import.meta.env.VITE_API_URL}/login`, {
    method: "POST",
    headers: {
    "Content-Type": "application/json",
@@ -48,7 +48,7 @@ import { loginUser, googleLogin } from "../firebase/firebase.auth";
 
   const email = result.user.email;
 
-   fetch("http://localhost:5000/login", {
+  fetch(`${import.meta.env.VITE_API_URL}/login`, {
    method: "POST",
   headers: {
   "Content-Type": "application/json",

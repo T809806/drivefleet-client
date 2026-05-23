@@ -8,7 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
  useEffect(() => {
 
-    fetch(`http://localhost:5000/cars/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/cars/${id}`)
       .then(res => res.json())
       .then(data => setCar(data));
 
@@ -28,7 +28,7 @@ const updatedCar = {
  description: form.description.value,
  };
 
-   fetch(`http://localhost:5000/cars/${id}`, {
+   fetch(`${import.meta.env.VITE_API_URL}/cars/${id}`, {
      method: "PUT",
       headers: {
         "content-type": "application/json",

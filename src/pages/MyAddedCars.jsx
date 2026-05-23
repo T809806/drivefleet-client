@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 useEffect(() => {
 
  if (!user?.email) return;
- fetch(`http://localhost:5000/my-cars?email=${user.email}`, {
+fetch(`${import.meta.env.VITE_API_URL}/my-cars?email=${user.email}`, {
  credentials: "include",
 
 })
@@ -23,7 +23,7 @@ useEffect(() => {
  const confirmDelete = window.confirm("Are you sure you want to delete this car?");
 
      if (!confirmDelete) return;
-    fetch(`http://localhost:5000/cars/${id}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/cars/${id}`, {
     method: "DELETE",
 
  })

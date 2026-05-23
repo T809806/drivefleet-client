@@ -8,7 +8,7 @@ import useAuth from "../hooks/useAuth";
 
   useEffect(() => {
 
-   fetch(`http://localhost:5000/bookings?email=${user.email}`)
+  fetch(`${import.meta.env.VITE_API_URL}/bookings?email=${user.email}`)
 
       .then(res => res.json())
       .then(data => setBookings(data));
