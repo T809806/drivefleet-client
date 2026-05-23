@@ -1,10 +1,6 @@
-# 🚗 DriveFleet – Car Rental Website
+#  DriveFleet – Car Rental Website
 
-Live Site URL: https://your-live-site-link.com
-
----
-
-## 🌟 About the Project
+##  About the Project
 
 DriveFleet is a modern car rental web application where users can explore available cars, search and filter vehicles, view detailed information, and book cars easily.
 
@@ -12,19 +8,24 @@ This project is built using the MERN stack and focuses on clean UI, authenticati
 
 ---
 
-## 🚀 Key Features
+### ScreenShot
+<img width="1858" height="786" alt="image" src="https://github.com/user-attachments/assets/2ecd7031-c623-4aac-90a3-3a8226d3d7dd" />
+<img width="1822" height="807" alt="image" src="https://github.com/user-attachments/assets/54c01821-8922-444c-bb13-c02767c3fc96" />
 
-- 🔍 Search cars by name using MongoDB regex
-- 🚗 Filter cars by type (SUV, Sedan, etc.)
-- 📄 View detailed car information on a separate page
-- 🔐 JWT authentication with HTTPOnly cookies
-- 📦 Booking system with automatic booking count increase
-- 🎨 Modern responsive UI using Tailwind CSS
-- ⚡ Fast and dynamic frontend with React + Vite
+---
+## Key Features
+
+- Search cars by name using MongoDB regex
+- Filter cars by type (SUV, Sedan, etc.)
+- View detailed car information on a separate page
+- JWT authentication with HTTPOnly cookies
+- Booking system with automatic booking count increase
+-  Modern responsive UI using Tailwind CSS
+-  Fast and dynamic frontend with React + Vite
 
 ---
 
-## 🛠️ Technologies Used
+##  Technologies Used
 
 - React.js
 - Node.js
@@ -36,7 +37,7 @@ This project is built using the MERN stack and focuses on clean UI, authenticati
 
 ---
 
-## 🔐 Authentication System
+##  Authentication System
 
 - User login generates JWT token
 - Token stored securely in HTTPOnly cookie
@@ -45,7 +46,7 @@ This project is built using the MERN stack and focuses on clean UI, authenticati
 
 ---
 
-## 📦 Booking System
+##  Booking System
 
 - Users can book any car
 - Each booking increases `booking_count` automatically using `$inc`
@@ -53,7 +54,7 @@ This project is built using the MERN stack and focuses on clean UI, authenticati
 
 ---
 
-## 🎯 Project Highlights
+##  Project Highlights
 
 - Fully responsive design
 - Clean and modern UI
@@ -63,9 +64,9 @@ This project is built using the MERN stack and focuses on clean UI, authenticati
 
 ---
 
-## 🌐 Live Demo
+##  Live Demo
 
-👉 https://your-live-site-link.com
+ https://your-live-site-link.com
 
 
 
