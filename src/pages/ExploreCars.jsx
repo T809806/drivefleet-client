@@ -32,7 +32,7 @@ useEffect(() => {
 
  useEffect(() => {
 
-  fetch(`http://localhost:5000/cars?search=${search}`)
+  fetch(`${import.meta.env.VITE_API_URL}/cars?search=${search}`)
 
     .then((res) => res.json())
     .then((data) => setCars(data));
