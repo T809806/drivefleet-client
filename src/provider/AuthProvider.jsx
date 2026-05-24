@@ -25,7 +25,7 @@ export const AuthContext = createContext();
 
  try {
 
-   const res = await fetch("http://localhost:5000/me", {
+   const res = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
    credentials: "include",
 
 });
