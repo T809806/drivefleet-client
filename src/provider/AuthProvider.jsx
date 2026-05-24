@@ -13,46 +13,43 @@ import {
 import app from "../firebase/firebase.config";
 export const AuthContext = createContext();
 
-     const auth = getAuth(app);
-     const AuthProvider = ({ children }) => {
-     const [user, setUser] = useState(null);
-     const [loading, setLoading] = useState(true);
+  const auth = getAuth(app);
+  const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
- useEffect(() => {
+useEffect(() => {
 
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-    if (currentUser?.email) {
+   const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
 
- try {
+    try {
 
-   const res = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
-   credentials: "include",
+     if (currentUser?.email) {
 
-});
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
+       credentials: "include"
+ });
 
- const data = await res.json();
-  if (data?.user) {
+  if (res.ok) {
+     const data = await res.json();
 
-  setUser(currentUser); 
+     setUser(data.user);
  } else {
-setUser(null);
-
-}
-
-} catch (err) {
-    setUser(null);
-    
-  }
+  setUser(null);
+ }
 
  } else {
    setUser(null);
+   }
 
+
+ } catch (err) {
+     setUser(null);
  }
 
-setLoading(false);
+  setLoading(false);
 
  });
-
  return () => unsubscribe();
 
   }, []);
@@ -64,11 +61,8 @@ setLoading(false);
   };
 
   return (
-
     <AuthContext.Provider value={authInfo}>
-
       {children}
-      
     </AuthContext.Provider>
   );
 };
