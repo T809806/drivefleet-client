@@ -32,7 +32,7 @@ import useAuth from "../hooks/useAuth";
      userEmail: user.email
   };
 
-  fetch("http://localhost:5000/bookings", {
+  fetch(`${import.meta.env.VITE_API_URL}/bookings`, {
 
       method: "POST",
       headers: {
