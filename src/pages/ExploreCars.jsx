@@ -11,7 +11,7 @@ import Loader from "../components/Loader";
 useEffect(() => {
 
  setLoading(true);
- fetch("http://localhost:5000/cars")
+ fetch(`${import.meta.env.VITE_API_URL}/cars`)
 
  .then((res) => {
    if (!res.ok) {
